@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>AI Authenticity Research</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+  <div class="container">
+    <h1>AI Media Authenticity Platform</h1>
+
+    <a href="ar.html">العربية</a> | <a href="en.html">English</a>
+
+    <hr>
+
+    <!-- Audio -->
+    <h3>Analyze Audio</h3>
+    <input type="file" id="audioFile" accept="audio/*">
+    <button onclick="sendAudio()">Analyze Audio</button>
+
+    <br><br>
+
+    <!-- Video -->
+    <h3>Analyze Video</h3>
+    <input type="file" id="videoFile" accept="video/*">
+    <button onclick="sendVideo()">Analyze Video</button>
+
+    <p id="result"></p>
+  </div>
+
+  <script>
+    async function sendAudio() {
+      const file = document.getElementById("audioFile").files[0];
+      if (!file) {
+        alert("اختر ملف صوتي");
+        return;
+      }
+
+      const formData = new FormData();
+      formData.append("file", file);
+
+      const res = await fetch(
+        "https://drago1345-ai.hf.space/analyze/audio",
+        { method: "POST", body: formData }
+      );
+
+      const data = await res.json();
+      document.getElementById("result").innerText =
+        `Audio Result: ${data.result} | Confidence: ${data.confidence}`;
+    }
+
+    async function sendVideo() {
+      const file = document.getElementById("videoFile").files[0];
+      if (!file) {
+        alert("اختر ملف فيديو");
+        return;
+      }
+
+      const formData = new FormData();
+      formData.append("file", file);
+
+      const res = await fetch(
+        "https://drago1345-ai.hf.space/analyze/video",
+        { method: "POST", body: formData }
+      );
+
+      const data = await res.json();
+      document.getElementById("result").innerText =
+        `Video Result: ${data.result} | Confidence: ${data.confidence}`;
+    }
+  </script>
+
+</body>
+</html>
