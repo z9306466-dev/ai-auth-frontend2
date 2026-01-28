@@ -4,113 +4,161 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>AI Authenticity Research</title>
-  <link rel="stylesheet" href="style.css">
   <style>
+    /* Dark theme for the entire page */
     body {
+      background-color: #121212;
+      color: white;
       font-family: Arial, sans-serif;
       margin: 0;
       padding: 20px;
-      background-color: #f4f4f9;
     }
 
+    /* Container for all the content */
     .container {
       max-width: 900px;
       margin: 0 auto;
       padding: 20px;
-      background-color: #fff;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      background-color: #1c1c1c;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
       border-radius: 8px;
     }
 
-    h1, h3 {
-      color: #333;
+    /* Styling for the header and navigation */
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
     }
 
-    button {
+    /* Style for the premium button */
+    .premium-button {
+      background-color: gold;
+      color: black;
       padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+
+    /* Style for the coins section */
+    .coins {
+      font-size: 18px;
+      font-weight: bold;
+      margin-right: 20px;
+    }
+
+    /* Style for the + button to show purchase options */
+    .purchase-button {
       background-color: #007bff;
-      color: #fff;
+      color: white;
+      padding: 5px 10px;
       border: none;
       border-radius: 5px;
       cursor: pointer;
     }
 
-    button:hover {
+    .purchase-button:hover {
       background-color: #0056b3;
     }
 
-    input[type="file"] {
-      margin: 10px 0;
-      padding: 10px;
+    /* Style for the modal (purchase system) */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      align-items: center;
+      justify-content: center;
     }
 
-    hr {
-      margin: 20px 0;
-      border-top: 1px solid #ddd;
+    .modal-content {
+      background-color: white;
+      color: black;
+      padding: 20px;
+      border-radius: 8px;
+      width: 300px;
     }
 
-    a {
-      color: #007bff;
-      text-decoration: none;
-    }
-
-    a:hover {
-      text-decoration: underline;
-    }
-
-    #result {
-      margin-top: 20px;
-      padding: 15px;
-      background-color: #e9ecef;
+    .close-btn {
+      background-color: red;
+      color: white;
+      border: none;
       border-radius: 5px;
-      color: #333;
+      padding: 5px 10px;
+      cursor: pointer;
     }
 
-    .nav-links {
-      margin: 20px 0;
-      text-align: center;
+    .close-btn:hover {
+      background-color: darkred;
     }
   </style>
 </head>
 
 <body>
+
+  <!-- Header Section -->
+  <header>
+    <div class="coins">
+      العملات: 1000 + <button class="purchase-button" onclick="openModal()">شراء المزيد</button>
+    </div>
+    <button class="premium-button">بريميم</button>
+  </header>
+
+  <!-- Main Content Container -->
   <div class="container">
-    <!-- Video Analysis Section -->
+    <!-- Video Section -->
     <h3>تحليل الفيديو</h3>
     <input type="file" id="videoFile" accept="video/*">
     <button onclick="sendVideo()">تحليل الفيديو</button>
     
     <br><br>
 
-    <!-- Audio Analysis Section -->
+    <!-- Audio Section -->
     <h3>تحليل الصوت</h3>
     <input type="file" id="audioFile" accept="audio/*">
     <button onclick="sendAudio()">تحليل الصوت</button>
 
     <hr>
 
-    <!-- Navigation Links for Language Change -->
+    <!-- Navigation Links for Language Change (العربية و English) -->
     <div class="nav-links">
       <a href="ar.html">العربية</a> | <a href="en.html">English</a>
     </div>
+  </div>
 
-    <hr>
-
-    <!-- Backend and Frontend Links -->
-    <div class="nav-links">
-      <p>للعودة إلى الواجهة الرئيسية:</p>
-      <a href="https://drg-web.netlify.app" target="_blank">الواجهة الرئيسية</a>
-
-      <br><br>
-
-      <p>للانتقال إلى الـ Backend (API):</p>
-      <a href="https://ai-webs.netlify.app" target="_blank">زيارة الـ Backend</a>
+  <!-- Modal for Purchasing More Coins -->
+  <div class="modal" id="purchaseModal">
+    <div class="modal-content">
+      <h3>نظام شراء العملات</h3>
+      <p>اختر كمية العملات التي ترغب في شرائها:</p>
+      <button onclick="buyCoins(500)">شراء 500 عملة</button><br><br>
+      <button onclick="buyCoins(1000)">شراء 1000 عملة</button><br><br>
+      <button class="close-btn" onclick="closeModal()">إغلاق</button>
     </div>
-
-    <p id="result"></p>
   </div>
 
   <script>
+    // Functions for purchasing and modal display
+    function openModal() {
+      document.getElementById('purchaseModal').style.display = 'flex';
+    }
+
+    function closeModal() {
+      document.getElementById('purchaseModal').style.display = 'none';
+    }
+
+    function buyCoins(amount) {
+      alert("تم شراء " + amount + " عملة بنجاح!");
+      closeModal();
+    }
+
+    // Functions to handle Audio and Video analysis
     async function sendAudio() {
       const file = document.getElementById("audioFile").files[0];
       if (!file) {
@@ -122,7 +170,7 @@
       formData.append("file", file);
 
       const res = await fetch(
-        "https://ai-webs.netlify.app/analyze/audio",
+        "https://ai-webs.netlify.app/analyze/audio", // تأكد أن الرابط هنا هو الصحيح
         { method: "POST", body: formData }
       );
 
@@ -142,7 +190,7 @@
       formData.append("file", file);
 
       const res = await fetch(
-        "https://ai-webs.netlify.app/analyze/video",
+        "https://ai-webs.netlify.app/analyze/video", // تأكد أن الرابط هنا هو الصحيح
         { method: "POST", body: formData }
       );
 
@@ -151,5 +199,6 @@
         `Video Result: ${data.result} | Confidence: ${data.confidence}`;
     }
   </script>
+
 </body>
 </html>
