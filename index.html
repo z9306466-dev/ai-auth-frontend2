@@ -50,55 +50,6 @@
       margin-right: 20px;
     }
 
-    /* Style for the + button to show purchase options */
-    .purchase-button {
-      background-color: #007bff;
-      color: white;
-      padding: 5px 10px;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-    }
-
-    .purchase-button:hover {
-      background-color: #0056b3;
-    }
-
-    /* Modal for Purchasing More Coins */
-    .modal {
-      display: none;
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background-color: rgba(0, 0, 0, 0.5);
-      align-items: center;
-      justify-content: center;
-    }
-
-    .modal-content {
-      background-color: white;
-      color: black;
-      padding: 20px;
-      border-radius: 8px;
-      width: 350px;
-      text-align: center;
-    }
-
-    .close-btn {
-      background-color: red;
-      color: white;
-      border: none;
-      border-radius: 5px;
-      padding: 5px 10px;
-      cursor: pointer;
-    }
-
-    .close-btn:hover {
-      background-color: darkred;
-    }
-
     /* Styling for the dropdowns */
     .dropdown-container {
       display: none; /* Hide dropdown initially */
@@ -114,58 +65,6 @@
       color: white;
       border: 1px solid #444;
       border-radius: 5px;
-    }
-
-    .currency-modal {
-      display: none;
-      background-color: #2a2a2a;
-      padding: 20px;
-      border-radius: 8px;
-      text-align: center;
-      position: fixed;
-      top: 30%;
-      left: 50%;
-      transform: translateX(-50%);
-      z-index: 999;
-    }
-
-    .currency-modal button {
-      background-color: #28a745;
-      color: white;
-      padding: 10px 20px;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-      width: 100%;
-      margin: 5px 0;
-    }
-
-    .currency-modal button:hover {
-      background-color: #218838;
-    }
-
-    /* Styling for currency modal close button */
-    .close-currency-modal {
-      background-color: red;
-      color: white;
-      padding: 5px 10px;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-    }
-
-    .close-currency-modal:hover {
-      background-color: darkred;
-    }
-
-    /* Styling for the purchase success notification */
-    .purchase-success {
-      background-color: #4CAF50;
-      color: white;
-      padding: 10px;
-      border-radius: 5px;
-      font-size: 16px;
-      margin-top: 20px;
     }
 
     /* Input field styling */
@@ -196,12 +95,7 @@
       background-color: #218838;
     }
 
-    /* Styling for the placeholder text */
-    .placeholder-text {
-      color: rgba(255, 255, 255, 0.7); /* Semi-transparent white */
-    }
-
-    /* Styling for wallet address display */
+    /* Styling for the wallet address display */
     .wallet-address {
       background-color: #333;
       padding: 10px;
@@ -209,6 +103,27 @@
       margin-top: 20px;
       font-size: 16px;
     }
+
+    /* Styling for the placeholder text */
+    .placeholder-text {
+      color: rgba(255, 255, 255, 0.7); /* Semi-transparent white */
+    }
+
+    /* Styling for the copy button */
+    .copy-button {
+      background-color: #007bff;
+      color: white;
+      padding: 5px 10px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 14px;
+    }
+
+    .copy-button:hover {
+      background-color: #0056b3;
+    }
+
   </style>
 </head>
 
@@ -217,39 +132,13 @@
   <!-- Header Section -->
   <header>
     <div class="coins">
-      العملات: 1000 + <button class="purchase-button" onclick="toggleDropdown()">شراء المزيد</button>
+      العملات: 1000 + <button class="premium-button">بريميم</button>
     </div>
-    <button class="premium-button">بريميم</button>
   </header>
 
   <!-- Main Content Container -->
   <div class="container">
-    <!-- Video Section -->
-    <h3>تحليل الفيديو</h3>
-    <input type="file" id="videoFile" accept="video/*">
-    <button onclick="sendVideo()">تحليل الفيديو</button>
-    
-    <br><br>
-
-    <!-- Audio Section -->
-    <h3>تحليل الصوت</h3>
-    <input type="file" id="audioFile" accept="audio/*">
-    <button onclick="sendAudio()">تحليل الصوت</button>
-
-    <hr>
-
-    <!-- Navigation Links for Language Change -->
-    <div class="nav-links">
-      <a href="ar.html">العربية</a> | <a href="en.html">English</a>
-    </div>
-
-    <div id="purchase-success" class="purchase-success" style="display: none;"></div>
-  </div>
-
-  <!-- Dropdown for Purchasing More Coins -->
-  <div class="dropdown-container" id="dropdown-container">
-    <h3>نظام شراء العملات</h3>
-    <p>اختر عدد العملات التي ترغب في شرائها:</p>
+    <h3>اختر عدد العملات التي ترغب في شرائها:</h3>
     <select id="coinAmount" onchange="updatePrice()">
       <option value="30">30 عملة</option>
       <option value="60">60 عملة</option>
@@ -269,44 +158,22 @@
     
     <div id="priceDisplay" style="color: #fff;"></div>
     
-    <button onclick="confirmPurchase()">تأكيد الشراء</button><br><br>
-    <button class="close-btn" onclick="closeDropdown()">إغلاق</button>
+    <button class="confirm-button" onclick="confirmPurchase()">تأكيد الشراء</button><br><br>
   </div>
 
-  <!-- Wallet Number Input Section -->
+  <!-- Wallet Address Display Section -->
   <div class="container" id="wallet-container" style="display: none;">
-    <label for="walletNumber">أدخل رقم محفظتك الرقمية:</label>
-    <select id="currencySelect" onchange="updatePlaceholderText()">
-      <option value="">اختر العملة</option>
-      <option value="Bitcoin">Bitcoin</option>
-      <option value="Ethereum">Ethereum</option>
-      <option value="USD Coin">USD Coin</option>
-    </select>
-    <input type="text" id="walletNumber" class="input-field" placeholder="رقم المحفظة" />
-    <p class="placeholder-text" id="placeholder-text">أدخل رقم المحفظة للعملة المحددة</p>
-    <button class="confirm-button" onclick="confirmWallet()">تأكيد</button>
-  </div>
-
-  <!-- Display Wallet Address -->
-  <div id="walletAddressDisplay" class="wallet-address" style="display:none;">
-    <p>رقم المحفظة: <span id="walletAddress"></span></p>
+    <h3>من فضلك قم بالتحويل لهذه المحفظة:</h3>
+    <div id="walletAddressDisplay" class="wallet-address">
+      <p id="walletAddress"></p>
+      <button class="copy-button" onclick="copyWalletAddress()">نسخ الرقم</button>
+    </div>
   </div>
 
   <script>
     let totalCoins = 1000;  // Starting coins count
     let totalAmount = 0;    // Total dollar amount for the purchase
     let walletAddress = ""; // Variable for storing the wallet address
-
-    // Function to toggle the dropdown visibility
-    function toggleDropdown() {
-      const dropdown = document.getElementById('dropdown-container');
-      dropdown.style.display = (dropdown.style.display === 'block') ? 'none' : 'block'; // Toggle visibility
-    }
-
-    // Close the dropdown
-    function closeDropdown() {
-      document.getElementById('dropdown-container').style.display = 'none';
-    }
 
     // Function to update the price based on the selected amount
     function updatePrice() {
@@ -322,7 +189,6 @@
       const currencyType = document.getElementById("currencyType").value;
 
       alert(`تم تأكيد شراء ${coinAmount} عملة باستخدام ${currencyType} مقابل $${totalAmount.toFixed(2)}`);
-      closeDropdown();
       showWalletSection(currencyType); // Show the wallet section after purchase
     }
 
@@ -340,39 +206,18 @@
         walletAddress = "0xc76079c3ea25b9b7ca09134060ec2f3e822d688a";
       }
 
-      document.getElementById("walletNumber").value = walletAddress;
-
-      // Show wallet address after purchase
       document.getElementById("walletAddress").innerText = walletAddress;
-      document.getElementById("walletAddressDisplay").style.display = "block";
     }
 
-    // Function to confirm the wallet number
-    function confirmWallet() {
-      const walletNumber = document.getElementById("walletNumber").value;
-      if (walletNumber.length >= 42) {
-        alert(`تم تأكيد رقم المحفظة: ${walletNumber}`);
-      } else {
-        alert("رقم المحفظة غير صالح، يجب أن يحتوي على 42 حرفًا على الأقل!");
-      }
+    // Function to copy the wallet address
+    function copyWalletAddress() {
+      const walletAddressText = document.getElementById("walletAddress").innerText;
+      navigator.clipboard.writeText(walletAddressText).then(() => {
+        alert("تم نسخ رقم المحفظة إلى الحافظة!");
+      }).catch(err => {
+        alert("فشل في نسخ رقم المحفظة: " + err);
+      });
     }
-
-    // Update the placeholder text based on the selected currency
-    function updatePlaceholderText() {
-      const selectedCurrency = document.getElementById("currencySelect").value;
-      const placeholderText = document.getElementById("placeholder-text");
-
-      if (selectedCurrency === "Bitcoin") {
-        placeholderText.innerText = "أدخل رقم محفظة Bitcoin الخاصة بك";
-      } else if (selectedCurrency === "Ethereum") {
-        placeholderText.innerText = "أدخل رقم محفظة Ethereum الخاصة بك";
-      } else if (selectedCurrency === "USD Coin") {
-        placeholderText.innerText = "أدخل رقم محفظة USD Coin الخاصة بك";
-      } else {
-        placeholderText.innerText = "أدخل رقم المحفظة للعملة المحددة";
-      }
-    }
-
   </script>
 
 </body>
