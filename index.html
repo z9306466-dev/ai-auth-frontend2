@@ -195,6 +195,11 @@
     .confirm-button:hover {
       background-color: #218838;
     }
+
+    /* Styling for the placeholder text */
+    .placeholder-text {
+      color: rgba(255, 255, 255, 0.7); /* Semi-transparent white */
+    }
   </style>
 </head>
 
@@ -262,7 +267,14 @@
   <!-- Wallet Number Input Section -->
   <div class="container" id="wallet-container" style="display: none;">
     <label for="walletNumber">أدخل رقم محفظتك الرقمية:</label>
+    <select id="currencySelect" onchange="updatePlaceholderText()">
+      <option value="">اختر العملة</option>
+      <option value="Bitcoin">Bitcoin</option>
+      <option value="Ethereum">Ethereum</option>
+      <option value="USD Coin">USD Coin</option>
+    </select>
     <input type="text" id="walletNumber" class="input-field" placeholder="رقم المحفظة" />
+    <p class="placeholder-text" id="placeholder-text">أدخل رقم المحفظة للعملة المحددة</p>
     <button class="confirm-button" onclick="confirmWallet()">تأكيد</button>
   </div>
 
@@ -320,10 +332,26 @@
     // Function to confirm the wallet number
     function confirmWallet() {
       const walletNumber = document.getElementById("walletNumber").value;
-      if (walletNumber) {
+      if (walletNumber.length >= 42) {
         alert(`تم تأكيد رقم المحفظة: ${walletNumber}`);
       } else {
-        alert("الرجاء إدخال رقم المحفظة!");
+        alert("رقم المحفظة غير صالح، يجب أن يحتوي على 42 حرفًا على الأقل!");
+      }
+    }
+
+    // Update the placeholder text based on the selected currency
+    function updatePlaceholderText() {
+      const selectedCurrency = document.getElementById("currencySelect").value;
+      const placeholderText = document.getElementById("placeholder-text");
+
+      if (selectedCurrency === "Bitcoin") {
+        placeholderText.innerText = "أدخل رقم محفظة Bitcoin الخاصة بك";
+      } else if (selectedCurrency === "Ethereum") {
+        placeholderText.innerText = "أدخل رقم محفظة Ethereum الخاصة بك";
+      } else if (selectedCurrency === "USD Coin") {
+        placeholderText.innerText = "أدخل رقم محفظة USD Coin الخاصة بك";
+      } else {
+        placeholderText.innerText = "أدخل رقم المحفظة للعملة المحددة";
       }
     }
 
