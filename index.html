@@ -110,15 +110,16 @@
       text-decoration: underline;
     }
 
-    /* Style for purchase confirmation modal */
-    .confirmation-modal {
+    /* Style for the purchasing options modal */
+    .purchase-options-modal {
       display: none;
       background-color: #2a2a2a;
       padding: 20px;
       border-radius: 8px;
+      text-align: center;
     }
 
-    .confirmation-modal button {
+    .purchase-options-modal button {
       background-color: #28a745;
       color: white;
       padding: 10px 20px;
@@ -127,7 +128,7 @@
       cursor: pointer;
     }
 
-    .confirmation-modal button:hover {
+    .purchase-options-modal button:hover {
       background-color: #218838;
     }
   </style>
@@ -138,7 +139,7 @@
   <!-- Header Section -->
   <header>
     <div class="coins">
-      العملات: 1000 + <button class="purchase-button" onclick="openModal()">شراء المزيد</button>
+      العملات: 1000 + <button class="purchase-button" onclick="openPurchaseOptionsModal()">شراء المزيد</button>
     </div>
     <button class="premium-button">بريميم</button>
   </header>
@@ -176,10 +177,14 @@
     </div>
   </div>
 
-  <!-- Confirmation Modal after purchase -->
-  <div class="confirmation-modal" id="confirmationModal">
-    <p>تم شراء <span id="purchaseAmount"></span> عملة بنجاح!</p>
-    <button onclick="closeConfirmationModal()">حسنًا</button>
+  <!-- Modal for Purchasing Digital Currency -->
+  <div class="purchase-options-modal" id="purchaseOptionsModal">
+    <h3>اختر عملة رقمية للشراء</h3>
+    <p>اختر العملة التي ترغب في استخدامها لشراء المزيد من العملات:</p>
+    <button onclick="buyWithCurrency('Bitcoin')">Bitcoin</button><br><br>
+    <button onclick="buyWithCurrency('Ethereum')">Ethereum</button><br><br>
+    <button onclick="buyWithCurrency('USD Coin')">USD Coin</button><br><br>
+    <button onclick="closePurchaseOptionsModal()">إغلاق</button>
   </div>
 
   <script>
@@ -192,15 +197,22 @@
       document.getElementById('purchaseModal').style.display = 'none';
     }
 
-    function closeConfirmationModal() {
-      document.getElementById('confirmationModal').style.display = 'none';
+    function openPurchaseOptionsModal() {
+      document.getElementById('purchaseOptionsModal').style.display = 'flex';
     }
 
-    // Function to handle the purchase logic
+    function closePurchaseOptionsModal() {
+      document.getElementById('purchaseOptionsModal').style.display = 'none';
+    }
+
     function buyCoins(amount) {
-      document.getElementById('purchaseAmount').innerText = amount;
-      document.getElementById('confirmationModal').style.display = 'flex';
+      alert("تم شراء " + amount + " عملة بنجاح!");
       closeModal();
+    }
+
+    function buyWithCurrency(currency) {
+      alert("تم شراء العملات باستخدام " + currency + "!");
+      closePurchaseOptionsModal();
     }
 
     // Functions to handle Audio and Video analysis
