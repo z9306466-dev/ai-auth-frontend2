@@ -191,13 +191,24 @@
     <div class="modal-content">
       <h3>نظام شراء العملات</h3>
       <p>اختر عدد العملات التي ترغب في شرائها:</p>
-      <button onclick="buyCoins(30)">شراء 30 عملة</button><br><br>
-      <button onclick="buyCoins(60)">شراء 60 عملة</button><br><br>
-      <button onclick="buyCoins(90)">شراء 90 عملة</button><br><br>
-      <button onclick="buyCoins(120)">شراء 120 عملة</button><br><br>
-      <button onclick="buyCoins(150)">شراء 150 عملة</button><br><br>
-      <button onclick="buyCoins(180)">شراء 180 عملة</button><br><br>
-      <button onclick="buyCoins(1000)">شراء 1000 عملة</button><br><br>
+      <select id="coinAmount">
+        <option value="30">30 عملة</option>
+        <option value="60">60 عملة</option>
+        <option value="90">90 عملة</option>
+        <option value="120">120 عملة</option>
+        <option value="150">150 عملة</option>
+        <option value="180">180 عملة</option>
+        <option value="1000">1000 عملة</option>
+      </select><br><br>
+      
+      <p>اختر العملة الرقمية التي ترغب في استخدامها:</p>
+      <select id="currencyType">
+        <option value="Bitcoin">Bitcoin</option>
+        <option value="Ethereum">Ethereum</option>
+        <option value="USD Coin">USD Coin</option>
+      </select><br><br>
+      
+      <button onclick="buyCoins()">شراء الآن</button><br><br>
       <button class="close-btn" onclick="closeModal()">إغلاق</button>
     </div>
   </div>
@@ -234,11 +245,14 @@
     }
 
     // Function to handle the purchase logic
-    function buyCoins(amount) {
-      totalCoins += amount;  // Add purchased coins
-      totalAmount += amount * 0.5;  // Add price for the amount (e.g., $0.5 per 30 coins)
+    function buyCoins() {
+      const coinAmount = document.getElementById("coinAmount").value;
+      const currencyType = document.getElementById("currencyType").value;
+      
+      totalCoins += parseInt(coinAmount);  // Add purchased coins
+      totalAmount += parseInt(coinAmount) * 0.5;  // Add price for the amount (e.g., $0.5 per 30 coins)
 
-      document.getElementById('purchase-success').innerText = `تم شراء ${amount} عملة بنجاح! السعر: $${totalAmount.toFixed(2)}`;
+      document.getElementById('purchase-success').innerText = `تم شراء ${coinAmount} عملة بنجاح! السعر: $${totalAmount.toFixed(2)}`;
       document.getElementById('purchase-success').style.display = 'block';
 
       closeModal();
