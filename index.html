@@ -109,6 +109,27 @@
     .nav-links a:hover {
       text-decoration: underline;
     }
+
+    /* Style for purchase confirmation modal */
+    .confirmation-modal {
+      display: none;
+      background-color: #2a2a2a;
+      padding: 20px;
+      border-radius: 8px;
+    }
+
+    .confirmation-modal button {
+      background-color: #28a745;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .confirmation-modal button:hover {
+      background-color: #218838;
+    }
   </style>
 </head>
 
@@ -155,6 +176,12 @@
     </div>
   </div>
 
+  <!-- Confirmation Modal after purchase -->
+  <div class="confirmation-modal" id="confirmationModal">
+    <p>تم شراء <span id="purchaseAmount"></span> عملة بنجاح!</p>
+    <button onclick="closeConfirmationModal()">حسنًا</button>
+  </div>
+
   <script>
     // Functions for purchasing and modal display
     function openModal() {
@@ -165,8 +192,14 @@
       document.getElementById('purchaseModal').style.display = 'none';
     }
 
+    function closeConfirmationModal() {
+      document.getElementById('confirmationModal').style.display = 'none';
+    }
+
+    // Function to handle the purchase logic
     function buyCoins(amount) {
-      alert("تم شراء " + amount + " عملة بنجاح!");
+      document.getElementById('purchaseAmount').innerText = amount;
+      document.getElementById('confirmationModal').style.display = 'flex';
       closeModal();
     }
 
