@@ -64,7 +64,7 @@
       background-color: #0056b3;
     }
 
-    /* Style for the modal (purchase system) */
+    /* Modal for Purchasing More Coins */
     .modal {
       display: none;
       position: fixed;
@@ -99,27 +99,21 @@
       background-color: darkred;
     }
 
-    /* Style for links (for Arabic, English) */
-    .nav-links a {
-      color: #1a73e8;  /* Dark Blue Color */
-      font-size: 18px;
-      text-decoration: none;
-    }
-
-    .nav-links a:hover {
-      text-decoration: underline;
-    }
-
-    /* Style for the purchasing options modal */
-    .purchase-options-modal {
+    /* Small modal style for showing currency selection */
+    .currency-modal {
       display: none;
       background-color: #2a2a2a;
       padding: 20px;
       border-radius: 8px;
       text-align: center;
+      position: fixed;
+      top: 20%;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 999;
     }
 
-    .purchase-options-modal button {
+    .currency-modal button {
       background-color: #28a745;
       color: white;
       padding: 10px 20px;
@@ -128,8 +122,22 @@
       cursor: pointer;
     }
 
-    .purchase-options-modal button:hover {
+    .currency-modal button:hover {
       background-color: #218838;
+    }
+
+    /* Styling for currency modal close button */
+    .close-currency-modal {
+      background-color: red;
+      color: white;
+      padding: 5px 10px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .close-currency-modal:hover {
+      background-color: darkred;
     }
   </style>
 </head>
@@ -139,7 +147,7 @@
   <!-- Header Section -->
   <header>
     <div class="coins">
-      العملات: 1000 + <button class="purchase-button" onclick="openPurchaseOptionsModal()">شراء المزيد</button>
+      العملات: 1000 + <button class="purchase-button" onclick="openModal()">شراء المزيد</button>
     </div>
     <button class="premium-button">بريميم</button>
   </header>
@@ -177,14 +185,14 @@
     </div>
   </div>
 
-  <!-- Modal for Purchasing Digital Currency -->
-  <div class="purchase-options-modal" id="purchaseOptionsModal">
+  <!-- Currency Purchase Modal (Small page on screen) -->
+  <div class="currency-modal" id="currencyModal">
     <h3>اختر عملة رقمية للشراء</h3>
     <p>اختر العملة التي ترغب في استخدامها لشراء المزيد من العملات:</p>
     <button onclick="buyWithCurrency('Bitcoin')">Bitcoin</button><br><br>
     <button onclick="buyWithCurrency('Ethereum')">Ethereum</button><br><br>
     <button onclick="buyWithCurrency('USD Coin')">USD Coin</button><br><br>
-    <button onclick="closePurchaseOptionsModal()">إغلاق</button>
+    <button class="close-currency-modal" onclick="closeCurrencyModal()">إغلاق</button>
   </div>
 
   <script>
@@ -197,22 +205,24 @@
       document.getElementById('purchaseModal').style.display = 'none';
     }
 
-    function openPurchaseOptionsModal() {
-      document.getElementById('purchaseOptionsModal').style.display = 'flex';
+    function openCurrencyModal() {
+      document.getElementById('currencyModal').style.display = 'flex';
     }
 
-    function closePurchaseOptionsModal() {
-      document.getElementById('purchaseOptionsModal').style.display = 'none';
+    function closeCurrencyModal() {
+      document.getElementById('currencyModal').style.display = 'none';
     }
 
+    // Function to handle the purchase logic
     function buyCoins(amount) {
       alert("تم شراء " + amount + " عملة بنجاح!");
       closeModal();
+      openCurrencyModal(); // Open the currency modal after buying coins
     }
 
     function buyWithCurrency(currency) {
       alert("تم شراء العملات باستخدام " + currency + "!");
-      closePurchaseOptionsModal();
+      closeCurrencyModal();
     }
 
     // Functions to handle Audio and Video analysis
