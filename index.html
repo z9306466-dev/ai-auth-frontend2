@@ -167,6 +167,34 @@
       font-size: 16px;
       margin-top: 20px;
     }
+
+    /* Input field styling */
+    .input-field {
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0;
+      background-color: #333;
+      color: white;
+      border: 1px solid #444;
+      border-radius: 5px;
+      font-size: 16px;
+    }
+
+    /* Button for confirmation */
+    .confirm-button {
+      background-color: #28a745;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      width: 100%;
+      font-size: 16px;
+    }
+
+    .confirm-button:hover {
+      background-color: #218838;
+    }
   </style>
 </head>
 
@@ -237,6 +265,13 @@
     <button onclick="buyWithCurrency('Ethereum')">Ethereum</button><br><br>
     <button onclick="buyWithCurrency('USD Coin')">USD Coin</button><br><br>
     <button class="close-currency-modal" onclick="closeCurrencyModal()">إغلاق</button>
+  </div>
+
+  <!-- Wallet Number Input Section -->
+  <div class="container">
+    <label for="walletNumber">أدخل رقم محفظتك الرقمية:</label>
+    <input type="text" id="walletNumber" class="input-field" placeholder="رقم المحفظة" />
+    <button class="confirm-button" onclick="confirmWallet()">تأكيد</button>
   </div>
 
   <script>
@@ -320,6 +355,16 @@
       const data = await res.json();
       document.getElementById("result").innerText =
         `Video Result: ${data.result} | Confidence: ${data.confidence}`;
+    }
+
+    // Function to handle wallet confirmation
+    function confirmWallet() {
+      const walletNumber = document.getElementById("walletNumber").value;
+      if (walletNumber) {
+        alert(`تم تأكيد رقم المحفظة: ${walletNumber}`);
+      } else {
+        alert("الرجاء إدخال رقم المحفظة!");
+      }
     }
   </script>
 
