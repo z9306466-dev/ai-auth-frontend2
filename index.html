@@ -236,7 +236,7 @@
   <div class="dropdown-container" id="dropdown-container">
     <h3>نظام شراء العملات</h3>
     <p>اختر عدد العملات التي ترغب في شرائها:</p>
-    <select id="coinAmount">
+    <select id="coinAmount" onchange="updatePrice()">
       <option value="30">30 عملة</option>
       <option value="60">60 عملة</option>
       <option value="90">90 عملة</option>
@@ -253,22 +253,14 @@
       <option value="USD Coin">USD Coin</option>
     </select><br><br>
     
-    <button onclick="buyCoins()">شراء الآن</button><br><br>
+    <div id="priceDisplay" style="color: #fff;"></div>
+    
+    <button onclick="confirmPurchase()">تأكيد الشراء</button><br><br>
     <button class="close-btn" onclick="closeDropdown()">إغلاق</button>
   </div>
 
-  <!-- Currency Purchase Modal (Small page on screen) -->
-  <div class="currency-modal" id="currencyModal">
-    <h3>اختر عملة رقمية للشراء</h3>
-    <p>اختر العملة التي ترغب في استخدامها لشراء المزيد من العملات:</p>
-    <button onclick="buyWithCurrency('Bitcoin')">Bitcoin</button><br><br>
-    <button onclick="buyWithCurrency('Ethereum')">Ethereum</button><br><br>
-    <button onclick="buyWithCurrency('USD Coin')">USD Coin</button><br><br>
-    <button class="close-currency-modal" onclick="closeCurrencyModal()">إغلاق</button>
-  </div>
-
   <!-- Wallet Number Input Section -->
-  <div class="container">
+  <div class="container" id="wallet-container" style="display: none;">
     <label for="walletNumber">أدخل رقم محفظتك الرقمية:</label>
     <input type="text" id="walletNumber" class="input-field" placeholder="رقم المحفظة" />
     <button class="confirm-button" onclick="confirmWallet()">تأكيد</button>
@@ -277,87 +269,55 @@
   <script>
     let totalCoins = 1000;  // Starting coins count
     let totalAmount = 0;    // Total dollar amount for the purchase
+    let walletAddress = ""; // Variable for storing the wallet address
 
-    // Functions for purchasing and modal display
+    // Function to toggle the dropdown visibility
     function toggleDropdown() {
       const dropdown = document.getElementById('dropdown-container');
       dropdown.style.display = (dropdown.style.display === 'block') ? 'none' : 'block'; // Toggle visibility
     }
 
+    // Close the dropdown
     function closeDropdown() {
       document.getElementById('dropdown-container').style.display = 'none';
     }
 
-    function openPurchaseOptionsModal() {
-      document.getElementById('currencyModal').style.display = 'flex';
+    // Function to update the price based on the selected amount
+    function updatePrice() {
+      const coinAmount = document.getElementById("coinAmount").value;
+      totalAmount = (coinAmount / 30) * 1; // $1 for every 30 coins
+
+      document.getElementById('priceDisplay').innerText = `السعر: $${totalAmount.toFixed(2)}`;
     }
 
-    function closeCurrencyModal() {
-      document.getElementById('currencyModal').style.display = 'none';
-    }
-
-    // Function to handle the purchase logic
-    function buyCoins() {
+    // Function to handle the purchase confirmation
+    function confirmPurchase() {
       const coinAmount = document.getElementById("coinAmount").value;
       const currencyType = document.getElementById("currencyType").value;
-      
-      totalCoins += parseInt(coinAmount);  // Add purchased coins
-      totalAmount += parseInt(coinAmount) * 0.5;  // Add price for the amount (e.g., $0.5 per 30 coins)
 
-      document.getElementById('purchase-success').innerText = `تم شراء ${coinAmount} عملة بنجاح! السعر: $${totalAmount.toFixed(2)}`;
-      document.getElementById('purchase-success').style.display = 'block';
-
+      alert(`تم تأكيد شراء ${coinAmount} عملة باستخدام ${currencyType} مقابل $${totalAmount.toFixed(2)}`);
       closeDropdown();
-      openPurchaseOptionsModal(); // Open the currency modal after buying coins
+      showWalletSection(currencyType); // Show the wallet section after purchase
     }
 
-    function buyWithCurrency(currency) {
-      alert("تم شراء العملات باستخدام " + currency + "!");
-      closeCurrencyModal();
-    }
+    // Show the wallet number section after purchase
+    function showWalletSection(currency) {
+      const walletContainer = document.getElementById("wallet-container");
+      walletContainer.style.display = "block";
 
-    // Functions to handle Audio and Video analysis
-    async function sendAudio() {
-      const file = document.getElementById("audioFile").files[0];
-      if (!file) {
-        alert("اختر ملف صوتي");
-        return;
+      // Set the wallet address based on the selected currency
+      if (currency === "Bitcoin") {
+        walletAddress = "bc1qx3k48ssps5wkfvysh083wa30x5hecc4w0f0nwp";
+      } else if (currency === "Ethereum") {
+        walletAddress = "0xc76079c3ea25b9b7ca09134060ec2f3e822d688a";
+      } else if (currency === "USD Coin") {
+        walletAddress = "0xc76079c3ea25b9b7ca09134060ec2f3e822d688a";
       }
 
-      const formData = new FormData();
-      formData.append("file", file);
-
-      const res = await fetch(
-        "https://ai-webs.netlify.app/analyze/audio", // تأكد أن الرابط هنا هو الصحيح
-        { method: "POST", body: formData }
-      );
-
-      const data = await res.json();
-      document.getElementById("result").innerText =
-        `Audio Result: ${data.result} | Confidence: ${data.confidence}`;
+      document.getElementById("walletNumber").value = walletAddress;
     }
 
-    async function sendVideo() {
-      const file = document.getElementById("videoFile").files[0];
-      if (!file) {
-        alert("اختر ملف فيديو");
-        return;
-      }
-
-      const formData = new FormData();
-      formData.append("file", file);
-
-      const res = await fetch(
-        "https://ai-webs.netlify.app/analyze/video", // تأكد أن الرابط هنا هو الصحيح
-        { method: "POST", body: formData }
-      );
-
-      const data = await res.json();
-      document.getElementById("result").innerText =
-        `Video Result: ${data.result} | Confidence: ${data.confidence}`;
-    }
-
-    // Function to handle wallet confirmation
+    // Function to confirm the wallet number
     function confirmWallet() {
       const walletNumber = document.getElementById("walletNumber").value;
       if (walletNumber) {
@@ -366,6 +326,7 @@
         alert("الرجاء إدخال رقم المحفظة!");
       }
     }
+
   </script>
 
 </body>
