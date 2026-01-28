@@ -151,6 +151,23 @@
       font-size: 16px;
       margin-top: 20px;
     }
+
+    /* Styling for the dropdowns */
+    .dropdown-container {
+      display: none; /* Hide the dropdown initially */
+      margin-top: 20px;
+      text-align: left;
+    }
+
+    .dropdown-container select {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 10px;
+      background-color: #333;
+      color: white;
+      border: 1px solid #444;
+      border-radius: 5px;
+    }
   </style>
 </head>
 
@@ -159,7 +176,7 @@
   <!-- Header Section -->
   <header>
     <div class="coins">
-      العملات: 1000 + <button class="purchase-button" onclick="openPurchaseOptionsModal()">شراء المزيد</button>
+      العملات: 1000 + <button class="purchase-button" onclick="toggleDropdown()">شراء المزيد</button>
     </div>
     <button class="premium-button">بريميم</button>
   </header>
@@ -230,8 +247,9 @@
     let totalAmount = 0;    // Total dollar amount for the purchase
 
     // Functions for purchasing and modal display
-    function openModal() {
-      document.getElementById('purchaseModal').style.display = 'flex';
+    function toggleDropdown() {
+      const dropdown = document.querySelector('.dropdown-container');
+      dropdown.style.display = (dropdown.style.display === 'block') ? 'none' : 'block'; // Toggle visibility
     }
 
     function closeModal() {
