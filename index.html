@@ -200,6 +200,15 @@
     .placeholder-text {
       color: rgba(255, 255, 255, 0.7); /* Semi-transparent white */
     }
+
+    /* Styling for wallet address display */
+    .wallet-address {
+      background-color: #333;
+      padding: 10px;
+      border-radius: 5px;
+      margin-top: 20px;
+      font-size: 16px;
+    }
   </style>
 </head>
 
@@ -278,6 +287,11 @@
     <button class="confirm-button" onclick="confirmWallet()">تأكيد</button>
   </div>
 
+  <!-- Display Wallet Address -->
+  <div id="walletAddressDisplay" class="wallet-address" style="display:none;">
+    <p>رقم المحفظة: <span id="walletAddress"></span></p>
+  </div>
+
   <script>
     let totalCoins = 1000;  // Starting coins count
     let totalAmount = 0;    // Total dollar amount for the purchase
@@ -327,6 +341,10 @@
       }
 
       document.getElementById("walletNumber").value = walletAddress;
+
+      // Show wallet address after purchase
+      document.getElementById("walletAddress").innerText = walletAddress;
+      document.getElementById("walletAddressDisplay").style.display = "block";
     }
 
     // Function to confirm the wallet number
